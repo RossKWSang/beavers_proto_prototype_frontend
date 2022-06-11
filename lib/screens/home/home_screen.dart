@@ -1,6 +1,7 @@
 import 'package:beavers_prototype/screens/login/login_page.dart';
 import 'package:beavers_prototype/utils/colors.dart';
 import 'package:beavers_prototype/utils/style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,292 +11,282 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _mainBannerTabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _mainBannerTabController = new TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _mainBannerTabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return SingleChildScrollView(
-      child: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: height * 0.05,
-            ),
-            Container(
-              height: height * 0.07,
-              width: width * 0.9,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 10,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5.0),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => LoginPage(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'My 댐',
-                          style: mainTextStyle,
-                        ),
-                        Text(
-                          '오산세교 2지구 호반써밋',
-                          style: mainTextStyle,
-                        ),
-                      ],
-                    ),
-                  ),
+    return SafeArea(
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: mobileBackgroundColor,
+            actions: [
+              IconButton(
+                icon: const Icon(
+                  CupertinoIcons.bell,
                 ),
+                onPressed: () {},
+                color: Colors.black,
               ),
-            ),
-            SizedBox(
-              height: height * 0.04,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-              child: Row(
-                children: [
-                  Image.asset(
-                    'assets/beaver_character.png',
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                      0,
-                      0,
-                      0,
-                      10,
-                    ),
-                    child: Image.asset(
-                      'assets/beaver_house.png',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: height * 0.25,
-              width: width * 0.40,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 10,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 25,
-                    vertical: 5,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            '현재 단계',
-                            style: mainTextStyle,
-                          ),
-                          Container(
-                            width: width * 0.3,
-                            child: Text(
-                              '서류접수중!\n(5/6~5/13)',
-                              style: alertTextStyle,
-                            ),
-                          ),
-                          Text(
-                            '필요서류 확인하기',
-                            style: subTextStyle,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+              IconButton(
+                icon: const Icon(
+                  CupertinoIcons.settings,
                 ),
+                onPressed: () {},
+                color: Colors.black,
               ),
-            ),
-            SizedBox(
-              height: height * 0.04,
-            ),
-            Container(
-              height: height * 0.15,
-              width: width * 0.8,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 10,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 25,
-                    vertical: 5,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Image.asset(
-                            'assets/beaver_house.png',
-                            color: primaryColor,
-                          ),
-                          Text(
-                            '일정 확인하기',
-                            style: subTextStyle,
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '댐 입주까지\nD-720',
-                        style: mainTextStyle,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: height * 0.04,
-            ),
-            Container(
-              height: height * 0.15,
-              width: width * 0.8,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 10,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 25,
-                    vertical: 5,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '비버 게시판',
-                        style: mainTextStyle,
-                      ),
-                      SizedBox(height: height * 0.03),
-                      Row(
-                        children: [
-                          Container(
-                            width: width * 0.15,
-                            child: Text(
-                              '# 대출',
-                              style: subTextStyle,
-                            ),
-                          ),
-                          Text(
-                            '주택담보대출은 언제부터 받을 수 있나요?',
-                            style: subTextStyle,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: width * 0.15,
-                            child: Text(
-                              '# 인테리어',
-                              style: subTextStyle,
-                            ),
-                          ),
-                          Text(
-                            '중문 확장 하실 분 있나요?',
-                            style: subTextStyle,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
+            ],
+            elevation: 0,
+          ),
+          body: SingleChildScrollView(
+            child: Container(
               padding: const EdgeInsets.symmetric(
-                horizontal: 50,
-                vertical: 40,
+                horizontal: 20,
               ),
-              child: Row(
+              child: Column(
                 children: [
-                  Column(
+                  const TextField(
+                    decoration: const InputDecoration(
+                      // border: OutlineInputBorder(),
+                      hintText: '댐 검색',
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(
+                            10.0,
+                          ),
+                        ),
+                        borderSide: const BorderSide(
+                          width: 1.5,
+                          color: primaryColor,
+                        ),
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(
+                            10.0,
+                          ),
+                        ),
+                        borderSide: BorderSide(
+                          width: 1.5,
+                          color: secondaryColor,
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                  ),
+                  SizedBox(
+                    height: height * 0.03,
+                  ),
+                  Row(
                     children: [
                       Text(
-                        '질문하기',
+                        "오늘의 당첨자 발표",
                         style: mainTextStyle,
                       ),
-                      Text(
-                        '질문하기\n탭에 대한 설명',
-                        style: subTextStyle,
+                      Spacer(),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => LoginPage(),
+                            ),
+                          );
+                        },
+                        child: Image.asset(
+                          'assets/beaver_character.png',
+                          width: width * 0.15,
+                        ),
                       ),
                     ],
                   ),
                   SizedBox(
-                    width: width * 0.1,
+                    height: height * 0.03,
                   ),
-                  Image.asset(
-                    'assets/beaver_question.png',
-                  )
+                  Stack(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 200,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15.0),
+                          child: TabBarView(
+                            controller: _mainBannerTabController,
+                            children: [
+                              Image.asset(
+                                'assets/images/banner_1.jpg',
+                                fit: BoxFit.fill,
+                              ),
+                              Image.asset(
+                                'assets/images/banner_2.jpg',
+                                fit: BoxFit.fill,
+                              ),
+                              Image.asset(
+                                'assets/images/banner_3.jpg',
+                                fit: BoxFit.fill,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 230,
+                        child: Column(
+                          children: [
+                            Spacer(),
+                            TabPageSelector(
+                              controller: _mainBannerTabController,
+                              selectedColor: secondaryColor,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  Text(
+                    '최근 당첨자 발표 단지',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: width * 0.05,
+                        height: height * 0.03,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                        ),
+                      ),
+                      SizedBox(
+                        width: width * 0.05,
+                      ),
+                      Text(
+                        '봉담 파라곤',
+                        style: mainTextStyle,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: width * 0.05,
+                        height: height * 0.03,
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                        ),
+                      ),
+                      SizedBox(
+                        width: width * 0.05,
+                      ),
+                      Text(
+                        '주영 더 팰리스 지븐',
+                        style: mainTextStyle,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: width * 0.05,
+                        height: height * 0.03,
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                        ),
+                      ),
+                      SizedBox(
+                        width: width * 0.05,
+                      ),
+                      Text(
+                        '트리마제 순천 1단지',
+                        style: mainTextStyle,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: width * 0.05,
+                        height: height * 0.03,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                        ),
+                      ),
+                      SizedBox(
+                        width: width * 0.05,
+                      ),
+                      Text(
+                        '강서자이 에고델타(20블록)',
+                        style: mainTextStyle,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: width * 0.05,
+                        height: height * 0.03,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                        ),
+                      ),
+                      SizedBox(
+                        width: width * 0.05,
+                      ),
+                      Text(
+                        '포항 자이 더 시티',
+                        style: mainTextStyle,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
                 ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
