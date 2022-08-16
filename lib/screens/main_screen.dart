@@ -1,7 +1,9 @@
+import 'package:beavers_prototype/screens/board/board_screen.dart';
 import 'package:beavers_prototype/screens/home/home_screen.dart';
 import 'package:beavers_prototype/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -45,11 +47,7 @@ class _MainScreenState extends State<MainScreen>
       body: PageView(
         children: [
           HomeScreen(),
-          Center(
-            child: Text(
-              '비버 게시판 in pangyo',
-            ),
-          ),
+          BoardScreen(),
           Center(
             child: Text(
               'My 비버',
@@ -81,10 +79,10 @@ class _MainScreenState extends State<MainScreen>
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              CupertinoIcons.person_2_fill,
+              CupertinoIcons.ellipsis,
               color: (_page == 2) ? primaryColor : secondaryColor,
             ),
-            label: 'MY 비버',
+            label: '더보기',
           ),
         ],
       ),

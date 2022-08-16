@@ -22,6 +22,12 @@ dynamic subTextStyle = TextStyle(
   fontWeight: FontWeight.normal,
 );
 
+dynamic aptAnounceTextStyle = TextStyle(
+  color: greyTextColor,
+  fontSize: 15,
+  fontWeight: FontWeight.normal,
+);
+
 dynamic alertTextStyle = TextStyle(
   color: alertTextColor,
   fontSize: 20,

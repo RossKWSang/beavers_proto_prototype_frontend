@@ -1,8 +1,13 @@
 import 'package:beavers_prototype/screens/login/login_page.dart';
 import 'package:beavers_prototype/utils/colors.dart';
 import 'package:beavers_prototype/utils/style.dart';
+import 'package:beavers_prototype/method/board_api.dart';
+import 'package:beavers_prototype/widget/apartment_complex.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -55,6 +60,9 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ],
             elevation: 0,
+            title: const Text(
+              '비버홈',
+            ),
           ),
           body: SingleChildScrollView(
             child: Container(
@@ -178,111 +186,150 @@ class _HomeScreenState extends State<HomeScreen>
                   SizedBox(
                     height: height * 0.02,
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        width: width * 0.05,
-                        height: height * 0.03,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                        ),
-                      ),
-                      SizedBox(
-                        width: width * 0.05,
-                      ),
-                      Text(
-                        '봉담 파라곤',
-                        style: mainTextStyle,
-                      ),
-                    ],
+
+                  FutureBuilder(
+                    future: getApts(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData == false) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Error: ${snapshot.error}',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        );
+                      } else {
+                        return SizedBox(
+                          height: height * 0.5,
+                          child: ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return AptComAno(
+                                deviceWidth: width,
+                                deviceHeight: height,
+                                name: snapshot.data[index]['name'],
+                                announceDate: snapshot.data[index]
+                                    ['announce_date'],
+                                moveIntoDate: snapshot.data[index]
+                                    ['move_into_date'],
+                              );
+                            },
+                          ),
+                        );
+                      }
+                    },
                   ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: width * 0.05,
-                        height: height * 0.03,
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                        ),
-                      ),
-                      SizedBox(
-                        width: width * 0.05,
-                      ),
-                      Text(
-                        '주영 더 팰리스 지븐',
-                        style: mainTextStyle,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: width * 0.05,
-                        height: height * 0.03,
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                        ),
-                      ),
-                      SizedBox(
-                        width: width * 0.05,
-                      ),
-                      Text(
-                        '트리마제 순천 1단지',
-                        style: mainTextStyle,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: width * 0.05,
-                        height: height * 0.03,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                        ),
-                      ),
-                      SizedBox(
-                        width: width * 0.05,
-                      ),
-                      Text(
-                        '강서자이 에고델타(20블록)',
-                        style: mainTextStyle,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: width * 0.05,
-                        height: height * 0.03,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                        ),
-                      ),
-                      SizedBox(
-                        width: width * 0.05,
-                      ),
-                      Text(
-                        '포항 자이 더 시티',
-                        style: mainTextStyle,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
+                  // ListView.builder(
+                  //   itemCount: ,
+                  //   itemBuilder: itemBuilder)
+
+                  // Row(
+                  //   children: [
+                  //     Container(
+                  //       width: width * 0.05,
+                  //       height: height * 0.03,
+                  //       decoration: BoxDecoration(
+                  //         color: Colors.red,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: width * 0.05,
+                  //     ),
+                  //     Text(
+                  //       '봉담 파라곤',
+                  //       style: mainTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: height * 0.02,
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Container(
+                  //       width: width * 0.05,
+                  //       height: height * 0.03,
+                  //       decoration: BoxDecoration(
+                  //         color: Colors.green,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: width * 0.05,
+                  //     ),
+                  //     Text(
+                  //       '주영 더 팰리스 지븐',
+                  //       style: mainTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: height * 0.02,
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Container(
+                  //       width: width * 0.05,
+                  //       height: height * 0.03,
+                  //       decoration: BoxDecoration(
+                  //         color: Colors.green,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: width * 0.05,
+                  //     ),
+                  //     Text(
+                  //       '트리마제 순천 1단지',
+                  //       style: mainTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: height * 0.02,
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Container(
+                  //       width: width * 0.05,
+                  //       height: height * 0.03,
+                  //       decoration: BoxDecoration(
+                  //         color: Colors.blue,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: width * 0.05,
+                  //     ),
+                  //     Text(
+                  //       '강서자이 에고델타(20블록)',
+                  //       style: mainTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: height * 0.02,
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Container(
+                  //       width: width * 0.05,
+                  //       height: height * 0.03,
+                  //       decoration: BoxDecoration(
+                  //         color: Colors.red,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: width * 0.05,
+                  //     ),
+                  //     Text(
+                  //       '포항 자이 더 시티',
+                  //       style: mainTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: height * 0.02,
+                  // ),
                 ],
               ),
             ),
